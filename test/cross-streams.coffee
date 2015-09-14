@@ -1,9 +1,9 @@
 should = require 'should'
 require 'mocha-sinon'
 
-describe 'unify', ->
+describe 'crossStreams', ->
 
-  lib = require '../lib/unify'
+  lib = require '../lib/cross-streams'
 
   beforeEach ->
     stub = @sinon.stub lib, 'fetch'
@@ -36,14 +36,14 @@ describe 'unify', ->
 
   it 'errors if describeLogStreams errors', (done) ->
     cloudwatchlogs = describeLogStreams: @sinon.stub().yields 'err'
-    lib.unify cloudwatchlogs, 'group', (err) ->
+    lib.crossStreams cloudwatchlogs, 'group', (err) ->
       err.should.equal 'err'
       done()
 
   it 'yields a sorted list of logs', (done) ->
     cloudwatchlogs = describeLogStreams: @sinon.stub().yields null,
       logStreams: [{ logStreamName: 'a' }, { logStreamName: 'b' }]
-    lib.unify cloudwatchlogs, 'group', (err, events) ->
+    lib.crossStreams cloudwatchlogs, 'group', (err, events) ->
       events.should.eql [{
           message: 'hello'
           timestamp: 1

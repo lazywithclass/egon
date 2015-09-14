@@ -3,7 +3,7 @@ require 'mocha-sinon'
 
 describe 'fetch', ->
 
-  lib = require('../lib/unify').fetch
+  lib = require('../lib/cross-streams').fetch
 
   beforeEach ->
     log = console.log
