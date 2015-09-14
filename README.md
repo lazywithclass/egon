@@ -1,10 +1,10 @@
 # Egon
 
-> Dr. Egon Spengler: There's something very important I forgot to tell you.
-Dr. Peter Venkman: What?
-Dr. Egon Spengler: Don't cross the streams.
-Dr. Peter Venkman: Why?
-Dr. Egon Spengler: It would be bad.
+> Dr. Egon Spengler: There's something very important I forgot to tell you.<br />
+Dr. Peter Venkman: What?<br />
+Dr. Egon Spengler: Don't cross the streams.<br />
+Dr. Peter Venkman: Why?<br />
+Dr. Egon Spengler: It would be bad.<br />
 
 There are some situations when you do want to cross the streams, AWS CloudWatch Logs streams in this case.
 
