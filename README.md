@@ -19,8 +19,10 @@ $ npm install egon
 This module combines multiple streams sorting by the `timestamp` field.
 
 ```javascript
-var logGroupName = 'your-log-group';
-egon.crossStreams(logGroupName, function(err, events) {
+var params = {
+  logGroupName: 'your-log-group'
+};
+egon.crossStreams(params, function(err, events) {
   // events contains all events in the streams
   // contained in the specified group
 });
