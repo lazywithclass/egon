@@ -4,6 +4,7 @@ require 'mocha-sinon'
 describe 'crossStreams', ->
 
   lib = require '../lib/cross-streams'
+  params = logGroupName: 'group'
 
   beforeEach ->
     stub = @sinon.stub lib, 'fetch'
@@ -36,14 +37,14 @@ describe 'crossStreams', ->
 
   it 'errors if describeLogStreams errors', (done) ->
     cloudwatchlogs = describeLogStreams: @sinon.stub().yields 'err'
-    lib.crossStreams cloudwatchlogs, 'group', (err) ->
+    lib.crossStreams cloudwatchlogs, params, (err) ->
       err.should.equal 'err'
       done()
 
   it 'yields a sorted list of logs', (done) ->
     cloudwatchlogs = describeLogStreams: @sinon.stub().yields null,
       logStreams: [{ logStreamName: 'a' }, { logStreamName: 'b' }]
-    lib.crossStreams cloudwatchlogs, 'group', (err, events) ->
+    lib.crossStreams cloudwatchlogs, params, (err, events) ->
       events.should.eql [{
           message: 'hello'
           timestamp: 1

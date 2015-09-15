@@ -31,3 +31,9 @@ egon.crossStreams(logGroupName, function(err, events) {
 ```bash
 $ npm test
 ```
+
+## Release notes
+
+### 0.3.0
+
+Implements [#1](https://github.com/lazywithclass/egon/issues/1), allowing to pass a parameter object that will be forwarded to the `getLogEvents` call.

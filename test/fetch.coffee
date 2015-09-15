@@ -4,6 +4,9 @@ require 'mocha-sinon'
 describe 'fetch', ->
 
   lib = require('../lib/cross-streams').fetch
+  params =
+    logGroupName: 'group',
+    logStreamName: 'stream'
 
   beforeEach ->
     log = console.log
@@ -22,19 +25,19 @@ describe 'fetch', ->
       getLogEvents: @sinon.stub().yields(null,
         events: [ message: 'hello', message: 'there' ]
       )
-    lib cloudwatchlogs, {}, 'group', 'stream', (err, events) ->
+    lib cloudwatchlogs, {}, params, (err, events) ->
       events.should.eql [ message: 'hello', message: 'there' ]
       done()
 
   it 'yield empty array in case of error', (done) ->
     cloudwatchlogs = getLogEvents: @sinon.stub().yields 'err'
-    lib cloudwatchlogs, {}, 'group', 'stream', (err, events) ->
+    lib cloudwatchlogs, {}, params, (err, events) ->
       events.should.eql []
       done()
 
   it 'logs in case of error', (done) ->
     cloudwatchlogs = getLogEvents: @sinon.stub().yields 'err'
-    lib cloudwatchlogs, {}, 'group', 'stream', (err) ->
+    lib cloudwatchlogs, {}, params, (err) ->
       console.log.calledOnce.should.be.true
       console.log.args[0][0].should.equal 'err'
       done()
@@ -46,7 +49,7 @@ describe 'fetch', ->
         nextForwardToken: 42
       )
     tokenmap = {}
-    lib cloudwatchlogs, tokenmap, 'group', 'stream', ->
+    lib cloudwatchlogs, tokenmap, params, ->
       tokenmap.stream.should.equal 42
       done()
 
@@ -54,7 +57,7 @@ describe 'fetch', ->
     cloudwatchlogs =
       getLogEvents: @sinon.stub().yields null, events: []
     tokenmap = stream: 'hi'
-    lib cloudwatchlogs, tokenmap, 'group', 'stream', ->
+    lib cloudwatchlogs, tokenmap, params, ->
       cloudwatchlogs.getLogEvents.args[0][0].should.eql
         logGroupName: 'group'
         logStreamName: 'stream'
