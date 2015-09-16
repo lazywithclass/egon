@@ -1,6 +1,6 @@
 {
   "name": "egon",
-  "version": "0.3.1",
+  "version": "0.4.1",
   "description": "Crossing CloudWatch Logs streams",
   "main": "index.js",
   "scripts": {
