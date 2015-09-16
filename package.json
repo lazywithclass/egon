@@ -1,6 +1,6 @@
 {
   "name": "egon",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Crossing CloudWatch Logs streams",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,8 @@
   ],
   "dependencies": {
     "async": "^1.4.2",
-    "aws-sdk": "^2.2.0"
+    "aws-sdk": "^2.2.0",
+    "lodash": "^3.10.1"
   },
   "devDependencies": {
     "aws-sdk": "^2.2.0",
