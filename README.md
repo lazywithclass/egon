@@ -28,6 +28,21 @@ egon.crossStreams(params, function(err, events) {
 });
 ```
 
+If you use `startTime` and `endTime` in `params` beware that logs are stored in memory before being sorted, this is ok for the current usage but that might change if requirements do or if I get lots of requests.
+
+```javascript
+var params = {
+  logGroupName: 'your-log-group',
+  startTime: start.getTime(),
+  endTime: end.getTime(),
+  startFromHead: true
+};
+egon.crossStreams(params, function(err, events) {
+  // events contains all events in the streams
+  // contained in the specified group
+});
+```
+
 ## Running tests
 
 ```bash
@@ -35,6 +50,10 @@ $ npm test
 ```
 
 ## Release notes
+
+### 0.4.0
+
+Adds support for `startTime` and `endTime`. Logs are buffed in memory.
 
 ### 0.3.0
 

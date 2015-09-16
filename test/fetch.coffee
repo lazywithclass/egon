@@ -21,10 +21,15 @@ describe 'fetch', ->
     should.exist lib
 
   it 'yields a list of logs', (done) ->
-    cloudwatchlogs =
-      getLogEvents: @sinon.stub().yields(null,
+    stub = @sinon.stub()
+    stub.onCall(0).yields(null, {
+        nextForwardToken: 42
         events: [ message: 'hello', message: 'there' ]
-      )
+      }).onCall(1).yields(null, {
+        nextForwardToken: 43
+        events: []
+      })
+    cloudwatchlogs = getLogEvents: stub
     lib cloudwatchlogs, {}, params, (err, events) ->
       events.should.eql [ message: 'hello', message: 'there' ]
       done()
@@ -43,14 +48,18 @@ describe 'fetch', ->
       done()
 
   it 'stores the token in the mapping', (done) ->
-    cloudwatchlogs =
-      getLogEvents: @sinon.stub().yields(null,
-        events: []
+    stub = @sinon.stub()
+    stub.onCall(0).yields(null, {
         nextForwardToken: 42
-      )
+        events: [ message: 'hi' ]
+      }).onCall(1).yields(null, {
+        nextForwardToken: 43
+        events: []
+      })
+    cloudwatchlogs = getLogEvents: stub
     tokenmap = {}
     lib cloudwatchlogs, tokenmap, params, ->
-      tokenmap.stream.should.equal 42
+      stub.args[1][0].nextToken.should.equal 42
       done()
 
   it 'calls aws with the expected params', (done) ->
@@ -62,4 +71,21 @@ describe 'fetch', ->
         logGroupName: 'group'
         logStreamName: 'stream'
         nextToken: 'hi'
+      done()
+
+  it 'buffers in memory in case there are more logs to process', (done) ->
+    stub = @sinon.stub()
+    stub.onCall(0).yields(null, {
+        nextForwardToken: 42
+        events: [ message: 'hello' ]
+      }).onCall(1).yields(null, {
+        nextForwardToken: 43
+        events: [ message: 'there' ]
+      }).onCall(2).yields(null, {
+        nextForwardToken: 44
+        events: []
+      })
+    cloudwatchlogs = getLogEvents: stub
+    lib cloudwatchlogs, {}, params, (err, events) ->
+      events.should.eql [{ message: 'hello' }, { message: 'there' }]
       done()
