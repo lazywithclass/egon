@@ -56,6 +56,10 @@ $ npm test
 
 ## Release notes
 
+### 0.6.1
+
+Added repository field to package.json
+
 ### 0.6.0
 
 I've made some stupid mistakes while publishing.
