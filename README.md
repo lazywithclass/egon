@@ -56,6 +56,10 @@ $ npm test
 
 ## Release notes
 
+### 0.6.0
+
+I've made some stupid mistakes while publishing.
+
 ### 0.4.1
 
 Fixes a mutability bad practice that prevented to read the correct events from the streams.
