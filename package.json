@@ -1,13 +1,13 @@
 {
   "name": "egon",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Crossing CloudWatch Logs streams",
   "main": "index.js",
   "scripts": {
     "test": "make test",
     "dev": "make -s"
   },
-  "repository": "",
+  "repository": "https://github.com/lazywithclass/egon.git",
   "author": "alberto.zaccagni@lazywithclass.com",
   "license": "BSD",
   "keywords": [
