@@ -20,7 +20,7 @@ $ npm install egon
 
 ## How to use it
 
-This module combines multiple streams sorting by the `timestamp` field.
+This module combines multiple streams.
 
 ```javascript
 var params = {
@@ -32,8 +32,7 @@ egon.crossStreams(params, function(err, events) {
 });
 ```
 
-If you use `startTime` and `endTime` in `params` beware that logs are stored in memory before being sorted, this is ok for the current usage but that might change if requirements do or if I get lots of requests.<br />
-You could increase Node.js limit, for example to 8GB, with `--max-old-space-size=8192`.
+Another example with `startTime` and `endTime`.
 
 ```javascript
 var params = {
@@ -55,6 +54,11 @@ $ npm test
 ```
 
 ## Release notes
+
+### 0.7.0
+
+Removed the sorting feature, no more the need to buffer events in memory. Need
+to rely on an external sorting tool (/usr/bin/sort might help).
 
 ### 0.6.1
 
