@@ -40,12 +40,20 @@ describe 'fetch', ->
       eventHandler.args[1][1].should.eql [ message: 'there' ]
       done()
 
-  it 'yields error array in case of error', (done) ->
+  it 'yields error in case of error', (done) ->
     getLogEvents = @sinon.stub()
     getLogEvents.onCall(0).yields 'err'
     cloudwatchlogs = getLogEvents: getLogEvents
     lib cloudwatchlogs, {}, params, @sinon.stub(), (err, events) ->
       err.should.equal 'err'
+      done()
+
+  it 'does not yield error if error == finished as it is used to break', (done) ->
+    getLogEvents = @sinon.stub()
+    getLogEvents.onCall(0).yields 'finished'
+    cloudwatchlogs = getLogEvents: getLogEvents
+    lib cloudwatchlogs, {}, params, @sinon.stub(), (err, events) ->
+      should.not.exist err
       done()
 
   it 'stores the token in the mapping', (done) ->
