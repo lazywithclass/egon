@@ -8,7 +8,7 @@ describe 'crossStreams', ->
 
   beforeEach ->
     stub = @sinon.stub lib, 'fetch'
-    stub.onCall(0).yields null, [{
+    stub.onCall(0).callsArgWithAsync 4, null, [{
         message: 'hello'
         timestamp: 1
       }, {
@@ -18,7 +18,7 @@ describe 'crossStreams', ->
         message: 'meet'
         timestamp: 10
       }]
-    stub.onCall(1).yields null, [{
+    stub.onCall(1).callsArgWithAsync 4, null, [{
         message: 'there'
         timestamp: 3
       }, {
@@ -37,31 +37,16 @@ describe 'crossStreams', ->
 
   it 'errors if describeLogStreams errors', (done) ->
     cloudwatchlogs = describeLogStreams: @sinon.stub().yields 'err'
-    lib.crossStreams cloudwatchlogs, params, (err) ->
+    lib.crossStreams cloudwatchlogs, params, @sinon.stub(), (err) ->
       err.should.equal 'err'
       done()
 
-  it 'yields a sorted list of logs', (done) ->
+  it 'errors if lib.fetch errors', (done) ->
+    lib.fetch.restore()
+    @sinon.stub(lib, 'fetch').callsArgWithAsync 4, 'err'
     cloudwatchlogs = describeLogStreams: @sinon.stub().yields null,
-      logStreams: [{ logStreamName: 'a' }, { logStreamName: 'b' }]
-    lib.crossStreams cloudwatchlogs, params, (err, events) ->
-      events.should.eql [{
-          message: 'hello'
-          timestamp: 1
-        }, {
-          message: 'there'
-          timestamp: 3
-        }, {
-          message: 'nice'
-          timestamp: 5
-        }, {
-          message: 'to'
-          timestamp: 7
-        }, {
-          message: 'meet'
-          timestamp: 10
-        }, {
-          message: 'you'
-          timestamp: 12
-        }]
+      logStreams: [{ logStreamName: 'a' }]
+
+    lib.crossStreams cloudwatchlogs, params, @sinon.stub(), (err, events) ->
+      err.should.equal 'err'
       done()
