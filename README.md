@@ -29,6 +29,9 @@ var params = {
 egon.crossStreams(params, function(err, events) {
   // events contains all events in the streams
   // contained in the specified group
+  // in this downloaded batch
+}, function(err) {
+  // we are done
 });
 ```
 
@@ -44,6 +47,9 @@ var params = {
 egon.crossStreams(params, function(err, events) {
   // events contains all events in the streams
   // contained in the specified group
+  // in this downloaded batch
+}, function(err) {
+  // we are done
 });
 ```
 
@@ -55,7 +61,11 @@ $ npm test
 
 ## Release notes
 
-### 0.7.0
+### 1.0.0
+
+As noted by the major update I changed `crossStreams` signature, introducing
+a handler that is called for every batch of logs, the second function is called
+when there are no more logs.
 
 Removed the sorting feature, no more the need to buffer events in memory. Need
 to rely on an external sorting tool (/usr/bin/sort might help).
