@@ -7,10 +7,12 @@ Dr. Peter Venkman: Why?<br />
 Dr. Egon Spengler: It would be bad.<br />
 Dr. Peter Venkman: I'm fuzzy on the whole good/bad thing. What do you mean, "bad"?<br />
 Dr. Egon Spengler: Try to imagine all life as you know it stopping instantaneously and every molecule in your body exploding at the speed of light.<br />
-Dr Ray Stantz: Total protonic reversal.<br />
+Dr. Ray Stantz: Total protonic reversal.<br />
 Dr. Peter Venkman: Right. That's bad. Okay. All right. Important safety tip. Thanks, Egon.<br />
 
 There are some situations when you do want to cross the streams, AWS CloudWatch Logs streams in this case.
+
+This module combines multiple AWS CloudWatch Logs streams.
 
 ## Installation
 
@@ -19,8 +21,6 @@ $ npm install egon
 ```
 
 ## How to use it
-
-This module combines multiple streams.
 
 ```javascript
 var params = {
@@ -68,7 +68,7 @@ a handler that is called for every batch of logs, the second function is called
 when there are no more logs.
 
 Removed the sorting feature, no more the need to buffer events in memory. Need
-to rely on an external sorting tool (/usr/bin/sort might help).
+to rely on an external sorting tool (`/usr/bin/sort` might help).
 
 ### 0.6.1
 
